@@ -41,8 +41,8 @@ StopList::StopList()
         while(getline(TRIPS_FILE,tp))
         {
             std::vector<std::string> out = splitString(tp,',');
-            trips[out[2]]=out[1];
-            serviceId[out[1]]=out[2];
+            trips[out[2]]=out[1]; // trips[trip_id] = service
+            serviceId[out[1]]=out[2]; //serviceId[service_id] = trip_id
         }
     
         //2. Load all the dates for each service ID
@@ -52,8 +52,8 @@ StopList::StopList()
         {   
             std::map<std::string,std::vector<std::string>> dates;
             std::string tp;
-            getline(TRIPS_FILE,tp);
-            while(getline(TRIPS_FILE,tp))
+            getline(CALENDAR_FILE,tp);
+            while(getline(CALENDAR_FILE,tp))
             {
                 std::vector<std::string> out = splitString(tp,',');
                 dates[out[0]].push_back(out[1]);
@@ -77,14 +77,16 @@ StopList::StopList()
                     if(currentVec[0]==previousVec[0])
                     {
                         std::string trId = currentVec[0];
-                        std::string serId = serviceId[trId]; 
+                        std::string serId = trips[trId]; 
                         int goFrom = std::stoi(previousVec[3]);
                         int goTo = std::stoi(currentVec[3]);
-                        std::vector<std::string> dateVec = dates[serId];
-                        for(int i = 0; i<dateVec.size();i++)
+                        std::vector<std::string> &dateVec = dates[serId];
+                        for(int i = 0; i<dates[serId].size();i++)
                         {
                             TTime goTime(dateVec[i]+":"+previousVec[1]);
                             TTime arrTime(dateVec[i]+":"+currentVec[1]);
+                            //TTime goTime(dates[serId][i]+":"+previousVec[1]);
+                            //TTime arrTime(dates[serId][i]+":"+currentVec[1]);
                             if(goTime<arrTime)
                             {
                                 Dest newDest(goTo,goTime,arrTime);
