@@ -2,6 +2,7 @@
 #include <ostream>
 #include <vector>
 #include <Dest.h>
+#include <iostream>
 class Stop
 {
     public:
@@ -12,5 +13,6 @@ class Stop
         std::vector<Dest> dests;
         friend std::ostream & operator << (std::ostream& os, const Stop& st);
         void appDest(Dest d);
+        void writeToFile();
 };
 
