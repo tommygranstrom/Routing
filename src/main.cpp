@@ -9,7 +9,7 @@ int main()
     StopList stoplist;
     std::cout<<"Stop list loaded sucesfully\n Stoplist has size "<<stoplist.stopMap.size()<<"\n";
     //Get and print stop
-    auto sss = stoplist[740046254];
+    auto sss = stoplist[100000351];
     std::cout<<sss<<"\n";
     std::cout<<"Have "<<sss.dests.size()<<" destinations\n";
 
